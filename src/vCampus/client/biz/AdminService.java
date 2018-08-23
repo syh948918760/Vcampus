@@ -1,4 +1,4 @@
-package vCampus.biz.client;
+package vCampus.client.biz;
 
 /**
  * @author Administrator
