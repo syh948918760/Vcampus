@@ -7,6 +7,8 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
+import vCampus.util.Message;
+
 /**
  * @author SongZixing
  * 
@@ -17,14 +19,18 @@ import java.net.UnknownHostException;
  */
 public class Client {
 	
-	public ServerResponse sendRequestToServer (ClientRequest clientRequest ) {
+	/**
+	 * @param clientRequest
+	 * @return ServerResponse
+	 */
+	public Message sendRequestToServer (Message clientRequest ) {
 		try {
-			//client request connection to local host at port 8888
-			Socket socket = new Socket("localhost", 8888);
+			//client request connection to local host at port 18888
+			Socket socket = new Socket("localhost", 18888);
 			//set the connection timeout
 			socket.setSoTimeout(10000);
 			//create request to be sent to server as ObjectOutputStream
-			ObjectOutputStream request =new ObjectOutputStream(socket.getOutputStream());
+			ObjectOutputStream request = new ObjectOutputStream(socket.getOutputStream());
 			request.writeObject(clientRequest);
 			request.flush();
 			//shut down the output stream
@@ -33,14 +39,14 @@ public class Client {
 			
 			//get the input stream response from server
 			ObjectInputStream response = new ObjectInputStream(new BufferedInputStream(socket.getInputStream()));
-			Object object = response.readObject();
+			Message object = (Message)response.readObject();
 			//shut down the output stream
 			response.close();
 			//shut down socket;
 			socket.close();
 			
 			if (object != null) {
-				return (ServerResponse)object;
+				return object;
 			}
 		}
 		
@@ -51,8 +57,9 @@ public class Client {
 		catch (IOException e) {
 			// TODO: handle exception
 			e.printStackTrace();
-		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
+		} 
+		catch (ClassNotFoundException e) {
+			 //TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return null;

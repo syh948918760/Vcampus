@@ -12,7 +12,7 @@ import java.io.Serializable;
  */
 public class Student implements Serializable{
 
-	private int studentID;//the id for student
+	private String studentID;//the id for student
 	private String studentName;// the name for student
 	private String studentPassword;// the password for student to login in
 	private int studentClassID;// the class id for student
@@ -24,7 +24,7 @@ public class Student implements Serializable{
 	}
 	
 	// construction for class Student
-	public Student(int studentID, String studentName, String studentPassword,
+	public Student(String studentID, String studentName, String studentPassword,
 			int studentClassID, int studentDormitoryID, int studentBalance) {
 		this.studentID = studentID;
 		this.studentName = studentName;
@@ -34,11 +34,11 @@ public class Student implements Serializable{
 		this.studentBalance = studentBalance;
 	}
 	
-	public int getStudentID() {
+	public String getStudentID() {
 		return studentID;
 	}
 	
-	public void setStudentID(int studentID) {
+	public void setStudentID(String studentID) {
 		this.studentID = studentID;
 	}
 	

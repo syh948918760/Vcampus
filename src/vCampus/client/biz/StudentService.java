@@ -9,5 +9,5 @@ package vCampus.client.biz;
  */
 public interface StudentService {
 
-	public boolean login(int studentID, String studentPassword);
+	public boolean login(String studentID, String studentPassword);
 }

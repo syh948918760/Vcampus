@@ -1,7 +1,7 @@
 package vCampus.dao;
 
 /**
- * @author Administrator
+ * @author SongZixing
  *
  */
 public class TestAdminDao {

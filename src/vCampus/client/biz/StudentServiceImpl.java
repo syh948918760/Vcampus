@@ -1,7 +1,11 @@
 package vCampus.client.biz;
 
+import java.util.ArrayList;
+import java.util.Collection;
+
 import vCampus.client.socket.Client;
-import vCampus.client.socket.ClientRequest;
+import vCampus.util.Message;
+import vCampus.util.MessageTypeCodes;
 
 /**
  * @author SongZixing
@@ -16,21 +20,41 @@ public class StudentServiceImpl implements StudentService{
 	private Client client;
 	private String serviceName;
 	
+	/**
+	 * @param
+	 * 
+	 */
 	public StudentServiceImpl() {
 		// TODO Auto-generated constructor stub
 		serviceName = "StudentService";
 	}
 	
 
+	/* (non-Javadoc)
+	 * @see vCampus.client.biz.StudentService#login(int, java.lang.String)
+	 */
 	@Override
-	public boolean login(int studentID, String studentPassword) {
+	public boolean login(String studentID, String studentPassword) {
 		// TODO Auto-generated method stub
-		Object object = client.sendRequestToServer(new ClientRequest
-				(serviceName,"login",new Class[] {int.class,String.class},
-						new Object[] {studentID,studentPassword}));
-		if(object!= null)
+		Message message = new Message();
+		message.setUserType("STUDENT");
+		ArrayList<Object> data = new ArrayList<Object>();
+		data.add(studentID);
+		data.add(studentPassword);
+		message.setData(data);
+		message.setMessageType(MessageTypeCodes.studentLogin);
+		Message serverResponse = client.sendRequestToServer(message);
+		
+		if(serverResponse.getStudentUser()!= null)
 		{
+			System.out.println(serverResponse.getStudentUser().getStudentName());
 			return true;
+		}
+		if(serverResponse.getExceptionCode()!=null) {
+			if(serverResponse.getExceptionCode()=="RecordNotFoundException")
+				System.out.println("No such Account!");
+			if(serverResponse.getExceptionCode()=="WrongPasswordException")
+				System.out.println("Wrong Password!");
 		}
 		return false;
 	}

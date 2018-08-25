@@ -1,7 +1,7 @@
 package vCampus.biz;
 
 /**
- * @author Administrator
+ * @author SongZixing
  *
  */
 public class TestAdmin {

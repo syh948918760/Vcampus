@@ -5,5 +5,5 @@ package vCampus.client.biz;
  *
  */
 public interface AdminService {
-
+	
 }
