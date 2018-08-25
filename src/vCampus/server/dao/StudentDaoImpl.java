@@ -1,7 +1,9 @@
 package vCampus.server.dao;
 
 import java.sql.Connection;
+
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 
@@ -11,34 +13,28 @@ import vCampus.util.Record2Student;
 import vCampus.vo.Student;
 
 /**
- * @author SongZixing
+ * @author YangHangyuan, SongZixing
  *
- * @version 0.0
- * 
  */
 public class StudentDaoImpl implements StudentDao{
 	
+	private DBConnection DBC=new DBConnection();
+	private PreparedStatement stmt=null;
+	private ResultSet rs=null;
+	
 	@Override
-	public Student findByName(String studentID) throws RecordNotFoundException {
+	public Student findByName(String userName) throws RecordNotFoundException {
 		// TODO Auto-generated method stub
 		try {
-			Class.forName("com.hxtt.sql.access.AccessDriver").newInstance();
-			String url = "jdbc:Access:///C:/Users/Administrator/eclipse-workspace/vCampus/Database.accdb";
-			Connection con = DriverManager.getConnection(url);
-			
 			//create SQL string
-			String sqlStr1 = "select * from tbl_student where studentId ="
-					+ "'"
-					+ studentID
-					+"'"
-					;
-			Statement stmt=con.createStatement();
-			ResultSet rs=stmt.executeQuery(sqlStr1);
+			String sql= "select * from tbl_student where userName ="+ "'"+ userName+"'";
+			stmt=DBC.con.prepareStatement(sql);
+			rs=stmt.executeQuery();
 			
 			if(rs.next()==false)
 			{ rs.close(); throw new RecordNotFoundException(); }
 			
-			rs = stmt.executeQuery(sqlStr1);
+			rs = stmt.executeQuery(sql);
 //			try {
 //				Record2Student helper = new Record2Student(rs);
 //				return helper.getStudent();
@@ -49,7 +45,7 @@ public class StudentDaoImpl implements StudentDao{
 //			}
 			while (rs.next()) {
 				Student student = new Student();
-				student.setStudentName(rs.getString("studentName"));
+				student.setUserName(rs.getString("userName"));
 				student.setStudentID(rs.getString("studentID"));
 				return student;
 			}
@@ -65,41 +61,43 @@ public class StudentDaoImpl implements StudentDao{
 		return null;
 	}
 	
-	/* (non-Javadoc)
-	 * @see vCampus.server.dao.StudentDao#findByNameAndPassword(java.lang.String, java.lang.String)
-	 */
+	
 	@Override
-	public Student findByNameAndPassword(String studentID, String studentPassword) throws RecordNotFoundException {
+	public Student findByNameAndPassword(String userName, String password) throws RecordNotFoundException {
 		// TODO Auto-generated method stub
 		
 		try {
+			//create SQL string
+			String sql= "select * from tbl_student where userName ="+ "'"+ userName+"'";
+			stmt=DBC.con.prepareStatement(sql);
+			rs=stmt.executeQuery();
 			Class.forName("com.hxtt.sql.access.AccessDriver").newInstance();
 			String url = "jdbc:Access:///C:/Users/Administrator/eclipse-workspace/vCampus/Database.accdb";
 			Connection con = DriverManager.getConnection(url);
 			
 			//create SQL string
-			String sqlStr1 = "select * from tbl_student where studentId ="
+			String sql = "select * from tbl_student where userName ="
 					+ "'"
-					+ studentID
+					+ userName
 					+"'"
 					+ " and password = '"
-					+ studentPassword
+					+ password
 					+"'";
 					;
-			Statement stmt=con.createStatement();
-			ResultSet rs=stmt.executeQuery(sqlStr1);
+			stmt=con.prepareStatement(sql);
+			rs=stmt.executeQuery();
 			
 			if(rs.next()==false)
 			{ rs.close(); throw new RecordNotFoundException(); }
 			
-			rs = stmt.executeQuery(sqlStr1);
+			rs = stmt.executeQuery(sql);
 //			try {
 //				Record2Student helper = new Record2Student(rs);
 //				return helper.getStudent();
 //			}
 			while (rs.next()) {
 				Student student = new Student();
-				student.setStudentName(rs.getString("studentName"));
+				student.setUserName(rs.getString("userName"));
 				student.setStudentID(rs.getString("studentID"));
 				return student;
 			}

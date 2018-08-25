@@ -4,12 +4,6 @@ import vCampus.server.exception.RecordNotFoundException;
 import vCampus.server.exception.WrongPasswordException;
 import vCampus.vo.Student;
 
-/**
- * @author SongZixing
- *
- * @version 0.0
- * 
- */
 public interface StudentDao {
 	/**
 	 * @param studentID
@@ -18,6 +12,6 @@ public interface StudentDao {
 	 * @throws RecordNotFoundException
 	 * @throws WrongPasswordException
 	 */
-	Student findByNameAndPassword(String studentID,String studentPassword) throws RecordNotFoundException;
-	Student findByName(String studentID) throws RecordNotFoundException;
+	Student findByNameAndPassword(String userName,String password) throws RecordNotFoundException;
+	Student findByName(String userName) throws RecordNotFoundException;
 }
