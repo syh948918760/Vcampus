@@ -12,7 +12,7 @@ public class User implements Serializable {
     private String phoneNumber;//phonen number
     private String bankAccount;//bank account
     private double account;//balance in bank account
-    private String money;//balance in Ecard
+    private double money;//balance in Ecard
 
     public void setPassword(String password){
     	this.password=password;
@@ -35,11 +35,14 @@ public class User implements Serializable {
     public void setPhoneNumber(String phoneNumber){
     	this.phoneNumber=phoneNumber;
     }
+    public void setBankAccount(String bankAccount){
+    	this.bankAccount=bankAccount;
+    }
     public void setAccount(double account){
     	this.account=account;
     }
-    public void setBankAccount(String account){
-    	this.bankAccount=bankAccount;
+    public void setMoney(double money){
+    	this.money=money;
     }
     
     public String getPassword(){
@@ -63,8 +66,14 @@ public class User implements Serializable {
     public String getPhoneNumber(){
     	return phoneNumber;
     }
+    public String getBankAccount(){
+    	return bankAccount;
+    }
     public double getAccount(){
     	return account;
+    }
+    public double getMoney(){
+    	return money;
     }
     
 }

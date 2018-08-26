@@ -7,7 +7,7 @@ import vCampus.model.User;
  * @author YangHangyuan
  *
  */
-public class Admin extends User implements Serializable{
+public class Admin implements Serializable{
 	private String adminID;
 	private String password;
 	

@@ -1,6 +1,7 @@
 package vCampus.vo;
 
 import java.io.Serializable;
+import java.sql.Timestamp;
 
 public class CourseInformation implements Serializable {
 	private String courseID;
@@ -8,10 +9,12 @@ public class CourseInformation implements Serializable {
 	private String deptName;
 	private String teacherEcardNumber;
 	private String teacherName;
-	private String courseHour;
+	private int courseHour;
 	private int credit;
-	private String startDate;
-	private String examTime;
+	private Timestamp courseDate;
+	private String coursePlace;
+	private Timestamp examTime;
+	private String examPlace;
 	private int personLimit;
 	private int currentAmount;
 	
@@ -25,11 +28,14 @@ public class CourseInformation implements Serializable {
 	public void setCourseName(String courseName) {
 		this.courseName = courseName;
 	}	
-	public void setCourseHour(String courseHour) {
+	public void setCourseHour(int courseHour) {
 		this.courseHour = courseHour;
 	}	
-	public void setStartDate(String startDate) {
-		this.startDate = startDate;
+	public void setCourseDate(Timestamp courseDate) {
+		this.courseDate = courseDate;
+	}	
+	public void setCoursePlace(String coursePlace) {
+		this.coursePlace= coursePlace;
 	}	
 	public void setCredit(int credit) {
 		this.credit = credit;
@@ -37,8 +43,11 @@ public class CourseInformation implements Serializable {
 	public void setPersonLimit(int personLimit) {
 		this.personLimit = personLimit;
 	}	
-	public void setExamTime(String examTime) {
+	public void setExamTime(Timestamp examTime) {
 		this.examTime = examTime;
+	}
+	public void setExamPlace(String examPlace) {
+		this.examPlace=examPlace;
 	}
 	public void setCurrentAmount(int currentAmount){
 		this.currentAmount=currentAmount;
@@ -62,8 +71,11 @@ public class CourseInformation implements Serializable {
 	public String getCourseHour() {
 		return courseHour;
 	}
-	public String getStartDate() {
-		return startDate;
+	public String getCourseDate() {
+		return courseDate;
+	}
+	public String getCoursePlace() {
+		return coursePlace;
 	}
 	public int getCredit() {
 		return credit;
@@ -73,6 +85,9 @@ public class CourseInformation implements Serializable {
 	}
 	public String getExamTime() {
 		return examTime;
+	}
+	public String getExamPlace() {
+		return examPlace;
 	}	
 	public int getCurrentAmount(){
 		return currentAmount;

@@ -1,31 +1,32 @@
 package vCampus.vo;
 
 import java.io.Serializable;
+import java.sql.Timestamp;
 
 public class Dormitory implements Serializable {
     private String studentEcardNumber;
-	private int month;
+	private Timestamp monthtime;
 	private double dormBill;
 	private double score;
 	
 	public void setStudentEcardNumber(String studentEcardNumber) {
 		this.studentEcardNumber=studentEcardNumber;
 	}
-	public void setMonth(int month){
-		this.month=month;
+	public void setScore(double score) {
+		this.score=score;
 	}
 	public void setDormBill(double dormBill){
 		this.dormBill=dormBill;
 	}
-	public void setMonth(double month){
-		this.month=month;
+	public void setMonthtime(Timestamp monthtime){
+		this.monthtime=monthtime;
 	}
 
 	public String getStudentEcardNumber() {
 		return studentEcardNumber;
 	}
-	public int getMonth(){
-		return month;
+	public Timestamp getMonthtime(){
+		return monthtime;
 	}
 	public double getDormBill(){
 		return dormBill;

@@ -8,14 +8,18 @@ import java.sql.Timestamp;
  * @author YangHangyuan
  *
  */
-public class BookBorrow extends BookInformation implements Serializable {
+public class BookBorrow implements Serializable {
 	
-	private String ecardNumber;
+	private String userName;
+	private String bookID;
 	private Timestamp borrowTime;
 	private int borrowNumber;
 	
-	public void setEcardNumber(String ecardNumber){
-		this.ecardNumber=ecardNumber;
+	public void setUserName(String userName){
+		this.userName=userName;
+	}
+	public void setBookID(String bookID){
+		this.bookID=bookID;
 	}
 	public void setBorrowTime(Timestamp borrowTime){
 		this.borrowTime=borrowTime;
@@ -23,8 +27,12 @@ public class BookBorrow extends BookInformation implements Serializable {
 	public void setBorrowNumber(int borrowNumber){
 		this.borrowNumber=borrowNumber;
 	}
-	public String getEcardNumber(){
-		return ecardNumber;
+	
+	public String getUserName(){
+		return userName;
+	}
+	public String geBookID(){
+		return bookID;
 	}
 	public Timestamp getBorrowTime(){
 		return borrowTime;
