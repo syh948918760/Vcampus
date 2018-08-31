@@ -9,7 +9,7 @@ public class User implements Serializable {
     private String idCard;//ID card
     private String deptName;//department name
     private String emailAddress;//email
-    private String phoneNumber;//phonen number
+    private String phoneNumber;//phone number
     private String bankAccount;//bank account
     private double account;//balance in bank account
     private double money;//balance in Ecard

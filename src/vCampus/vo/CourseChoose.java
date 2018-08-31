@@ -6,25 +6,25 @@ public class CourseChoose implements Serializable {
 	
 	private String courseID;
 	private String userName;
-	private int grade;
+	private double score;
 	
 	public void setCourseID(String courseID) {
 		this.courseID=courseID;
 	}
-	public void setStudentEcardNumber(String userName) {
+	public void setUserName(String userName) {
 		this.userName = userName;
 	}
-	public void setGrade(int grade) {
-		this.grade = grade;
+	public void setScore(double score) {
+		this.score= score;
 	}
 	
 	public String getCourseID() {
 		return courseID;
 	}
-	public String getStudentEcardNumber() {
+	public String getUserName() {
 		return userName;
 	}
-	public int getGrade() {
-		return grade;
+	public double getScore() {
+		return score;
 	}
 }

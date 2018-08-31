@@ -10,7 +10,7 @@ public class CourseInformation implements Serializable {
 	private String teacherEcardNumber;
 	private String teacherName;
 	private int courseHour;
-	private int credit;
+	private double credit;
 	private Timestamp courseDate;
 	private String coursePlace;
 	private Timestamp examTime;
@@ -37,7 +37,7 @@ public class CourseInformation implements Serializable {
 	public void setCoursePlace(String coursePlace) {
 		this.coursePlace= coursePlace;
 	}	
-	public void setCredit(int credit) {
+	public void setCredit(double credit) {
 		this.credit = credit;
 	}	
 	public void setPersonLimit(int personLimit) {
