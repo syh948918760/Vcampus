@@ -6,6 +6,7 @@ import java.util.Collection;
 import vCampus.client.socket.Client;
 import vCampus.util.Message;
 import vCampus.util.MessageTypeCodes;
+import vCampus.vo.Student;
 
 /**
  * @author SongZixing
@@ -18,7 +19,8 @@ import vCampus.util.MessageTypeCodes;
 public class StudentServiceImpl implements StudentService{
 	
 	private Client client;
-	private String serviceName;
+	private String exceptionCode;
+	private Student cacheStudent;
 	
 	/**
 	 * @param
@@ -26,9 +28,21 @@ public class StudentServiceImpl implements StudentService{
 	 */
 	public StudentServiceImpl() {
 		// TODO Auto-generated constructor stub
-		serviceName = "StudentService";
+		client = new Client();
+		exceptionCode = "";
+		cacheStudent = null;
 	}
 	
+
+	public String getExceptionCode() {
+		return exceptionCode;
+	}
+
+
+	public Student getCacheStudent() {
+		return cacheStudent;
+	}
+
 
 	/* (non-Javadoc)
 	 * @see vCampus.client.biz.StudentService#login(int, java.lang.String)
@@ -47,7 +61,7 @@ public class StudentServiceImpl implements StudentService{
 		
 		if(serverResponse.getStudentUser()!= null)
 		{
-			System.out.println(serverResponse.getStudentUser().getStudentName());
+			System.out.println(serverResponse.getStudentUser().getUserName());
 			return true;
 		}
 		if(serverResponse.getExceptionCode()!=null) {
@@ -58,5 +72,33 @@ public class StudentServiceImpl implements StudentService{
 		}
 		return false;
 	}
+	
+	@Override
+	public boolean register(String studentID, String studentPassword, String studentConfirmedPassword) {
+		// TODO Auto-generated method stub
+		if(!studentConfirmedPassword.equals(studentPassword)) {
+			exceptionCode = "UnmachedPassword";
+			return false;
+		}
+		Message message = new Message();
+		message.setUserType("STUDENT");
+		ArrayList<Object> data =new ArrayList<Object>();
+		data.add(studentID);
+		data.add(studentPassword);
+		message.setData(data);
+		message.setMessageType(MessageTypeCodes.studentRegister);
+		Message serverRespose = client.sendRequestToServer(message);
+		ArrayList<Object> paras = (ArrayList<Object>) serverRespose.getData();
+		Student newStudent = (Student) paras.get(0);
+		
+		if(newStudent != null) {
+			cacheStudent = newStudent;
+			return true;
+		}
+		else exceptionCode = serverRespose.getExceptionCode();
+		
+		
+		return false;
+	} 
 	
 }

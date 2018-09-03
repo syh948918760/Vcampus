@@ -13,7 +13,7 @@ import vCampus.util.Message;
 /**
  * @author SongZixing
  * 
- * @version 0.0
+ * @version 0.1
  * 
  * Establish socket for client
  *
