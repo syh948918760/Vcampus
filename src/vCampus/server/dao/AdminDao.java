@@ -16,8 +16,8 @@ public interface AdminDao {
 	 * @throws WrongPasswordException
 	 */
 	public Admin selectAdmin(String adminID);
-	public void insertAdmin(String ID,String password);
-	public void updatePassword(String password,String adminID);
+	public boolean insertAdmin(String ID,String password);
+	public boolean updatePassword(String adminID,String password);
 
 }
 
