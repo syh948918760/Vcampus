@@ -19,6 +19,7 @@ import vCampus.server.biz.StudentServiceDaoImpl;
 import vCampus.server.exception.RecordNotFoundException;
 import vCampus.server.exception.WrongPasswordException;
 import vCampus.util.Message;
+import vCampus.util.MessageTypeCodes;
 import vCampus.vo.Student;
 
 /**
@@ -38,21 +39,23 @@ public class ServerSocketThread extends Thread{
 	
 	@Override
 	public void run() {
-		// TODO Auto-generated method stub
 		try {
 			ObjectInputStream message = new ObjectInputStream(new BufferedInputStream(clientSocket.getInputStream()));
 			Message object = (Message)message.readObject();
-            System.out.println("“—Ω” ’µΩøÕªß∂À¡¨Ω”"+ ",µ±«∞øÕªß∂ÀipŒ™£∫"
+            System.out.println("Â∑≤Êé•Êî∂Âà∞ÂÆ¢Êà∑Á´ØËøûÊé•"+ ",ÂΩìÂâçÂÆ¢Êà∑Á´Øip‰∏∫Ôºö"
                     + clientSocket.getInetAddress().getHostAddress());
             System.out.println(object.getMessageType());
           
             
-            if(object.getMessageType() == "STUDENT_LOGIN") {
+            if(object.getMessageType().equals(MessageTypeCodes.studentLogin) ) {
             	Message serverResponse = new Message();
             	try {
             		StudentServiceDao studentServiceDao = new StudentServiceDaoImpl();
-            		Student foundStudent = studentServiceDao.login(object.getLoginAccount(), object.getLoginPassword());
-            		serverResponse.setStudentUser(foundStudent);
+            		ArrayList<Object> paras = (ArrayList<Object>) object.getData();
+            		Student foundStudent = studentServiceDao.login((String)paras.get(0), (String)paras.get(1));
+            		ArrayList<Object> data = new ArrayList<Object>();
+            		data.add(foundStudent);
+            		serverResponse.setData(data);
             	}
             	catch (RecordNotFoundException e) {
 					// TODO: handle exception
@@ -66,11 +69,51 @@ public class ServerSocketThread extends Thread{
             	response.writeObject(serverResponse);
             	
             }
+            
+            if(object.getMessageType().equals(MessageTypeCodes.studentRegister)) {
+            	Message serverResponse = new Message();
+            	try {
+            		StudentServiceDao studentServiceDao = new StudentServiceDaoImpl();
+            		ArrayList<Object> Parameters = (ArrayList<Object>) object.getData();
+            		Student newStudent = studentServiceDao.register((String)Parameters.get(0), (String)Parameters.get(1));
+            		ArrayList<Object> data = new ArrayList<Object>();
+            		data.add(newStudent);
+            		serverResponse.setData(data);
+            	}
+            	catch (SQLException e) {
+					// TODO: handle exception
+            		serverResponse.setExceptionCode("SQLException");
+				}
+            	catch (RecordNotFoundException e) {
+					// TODO: handle exception
+            		serverResponse.setExceptionCode("RecordNotFoundException");
+				}
+            }
+            
+            if(object.getMessageType().equals(MessageTypeCodes.studentChangePassword)) {
+            	Message serverResponse = new Message();
+            	try {
+					StudentServiceDao studentServiceDao = new StudentServiceDaoImpl();
+					ArrayList<Object> paras = (ArrayList<Object>) object.getData();
+					Student updatedStudent = studentServiceDao.updatePassword((String) paras.get(0), (String)paras.get(1));
+					ArrayList<Object> data = new ArrayList<Object>();
+					data.add(updatedStudent);
+					serverResponse.setData(data);
+				} catch (SQLException e) {
+					// TODO: handle exception
+					serverResponse.setExceptionCode("SQLException");
+				}
+            	catch (RecordNotFoundException e) {
+					// TODO: handle exception
+            		serverResponse.setExceptionCode("RecordNotFoundException");
+				}
+            }
           
 		}
 		catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
 		}
+	
 	}
 }
