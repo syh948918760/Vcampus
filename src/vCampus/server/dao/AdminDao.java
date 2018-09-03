@@ -18,6 +18,6 @@ public interface AdminDao {
 	public Admin selectAdmin(String adminID);
 	public boolean insertAdmin(String ID,String password);
 	public boolean updatePassword(String adminID,String password);
-
+	
 }
 
