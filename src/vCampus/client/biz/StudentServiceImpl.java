@@ -19,6 +19,7 @@ import vCampus.vo.Student;
 public class StudentServiceImpl implements StudentService{
 	
 	private Client client;
+	
 	private String exceptionCode;
 	private Student cacheStudent;
 	
