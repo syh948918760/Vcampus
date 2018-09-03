@@ -22,11 +22,16 @@ private StudentDao sd = new StudentDaoImpl();
 	 * @see vCampus.server.biz.StudentServiceDao#login(java.lang.String, java.lang.String)
 	 */
 	@Override
-	public Student login(String userName, String studentPassword) throws RecordNotFoundException, WrongPasswordException {
+	public Student login(String userName, String studentPassword) throws RecordNotFoundException, WrongPasswordException, SQLException {
 		// TODO Auto-generated method stub
 		try {
 			Student student1 = sd.findByName(userName);
-			return student1;
+			if(student1.getPassword().equals(studentPassword)) {
+				return student1;
+			}
+			else {
+				throw new WrongPasswordException();
+			}
 		}
 		
 		catch (RecordNotFoundException e) {
