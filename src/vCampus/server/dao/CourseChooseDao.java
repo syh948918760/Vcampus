@@ -17,7 +17,11 @@ public interface CourseChooseDao {
 	 * @throws WrongPasswordException
 	 */
 
-	ArrayList<CourseChoose> courseQueryByUserName(String userName)throws RecordNotFoundException;
-	
+	ArrayList<CourseChoose> courseQueryByStudent(String studentName)throws RecordNotFoundException,SQLException;
+	ArrayList<CourseChoose> courseQueryByTeacher(String teacherName)throws RecordNotFoundException,SQLException;
+	ArrayList<CourseChoose> courseQueryByCourse(String courseName)throws RecordNotFoundException,SQLException;
+	boolean addCourseByStudent(String studentName,String courseID)throws SQLException;
+	boolean deleteCourseByStudent(String studentName,String courseID)throws SQLException;
+	boolean updateScoreByTeacher(ArrayList<CourseChoose> scoreList)throws SQLException;
 	
 }

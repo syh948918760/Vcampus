@@ -1,6 +1,7 @@
 package vCampus.server.dao;
 
 import java.sql.Connection;
+
 import java.sql.SQLException;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -9,8 +10,6 @@ import java.sql.ResultSetMetaData;
 import java.sql.Statement;
 
 import vCampus.server.exception.RecordNotFoundException;
-import vCampus.server.exception.WrongPasswordException;
-import vCampus.util.Record2Student;
 import vCampus.vo.Student;
 
 /**
@@ -53,7 +52,7 @@ public class StudentDaoImpl implements StudentDao{
 	}
     
 	@Override
-	public Student findByName(String userName) {
+	public Student findByName(String userName) throws RecordNotFoundException,SQLException{
 		// TODO Auto-generated method stub
 		try {
 			//create SQL string
@@ -64,25 +63,24 @@ public class StudentDaoImpl implements StudentDao{
 			resultSetMetaData = rs.getMetaData();
 			iNumCols= resultSetMetaData.getColumnCount();
 			if(rs.next()) {
-				Student std=ResultSetToStudent(rs);
-				System.out.println("Find!");
-				return std;
+				return ResultSetToStudent(rs);
 			}
 		}
 		catch (Exception e) {
 			// TODO: handle exception
             System.out.println(e.getMessage());
 			e.printStackTrace();
+			throw new RecordNotFoundException();
 		}
 		return null;
 	}
 	
 	@Override
 	public boolean insertByUserNameAndPassword(String userName,String password)throws SQLException{
-		Student std1=findByName(userName);
-		if(std1!=null)return false;
 		
 		try {
+			Student std1=findByName(userName);
+			if(std1!=null)return false;
 			//create SQL string
 			String sql = "INSERT INTO tbl_student (userName, password) VALUES ( '"+userName+"' , '"+password+"' )";
 			stmt=DBC.con.prepareStatement(sql);
@@ -98,8 +96,10 @@ public class StudentDaoImpl implements StudentDao{
 	}
 	
 	@Override
-	public boolean updateSelfInformation(Student std)throws SQLException {
+	public boolean updateSelfInformation(Student std)throws RecordNotFoundException,SQLException {
 		try {
+			Student std1=findByName(std.getUserName());
+			if(std1==null)throw new RecordNotFoundException();
 			//create SQL string
 			String sql="UPDATE tbl_student SET sex=?, SET idCard=?, SET deptName=?, SET emailAddress=?, "
 					+ "SET phoneNumber=?, SET bankAccount=?, SET account=?, SET money=?, SET studentEcardNumber=?, "
@@ -132,8 +132,10 @@ public class StudentDaoImpl implements StudentDao{
 	}
 	
 	@Override
-	public boolean updatePassword(String userName,String password)throws SQLException{
+	public boolean updatePassword(String userName,String password)throws RecordNotFoundException,SQLException{
 		try {
+			Student std1=findByName(userName);
+			if(std1==null)throw new RecordNotFoundException();
 			//create SQL string
 			String sql="UPDATE tbl_student SET password=? WHERE userName=?";
 			stmt=DBC.con.prepareStatement(sql);

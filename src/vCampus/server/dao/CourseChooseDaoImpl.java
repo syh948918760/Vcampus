@@ -1,13 +1,15 @@
 package vCampus.server.dao;
 
 import java.sql.PreparedStatement;
+
+
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.util.ArrayList;
+import java.sql.SQLException;
 
 import vCampus.server.exception.RecordNotFoundException;
 import vCampus.vo.CourseChoose;
-import vCampus.vo.Student;
 
 public class CourseChooseDaoImpl implements CourseChooseDao{
 	
@@ -24,7 +26,9 @@ public class CourseChooseDaoImpl implements CourseChooseDao{
 			while(rs1.next()) {
 				c=new CourseChoose();
 				c.setCourseID(rs1.getString("courseID"));
-				c.setUserName(rs1.getString("username"));
+				c.setCourseName(rs1.getString("courseName"));
+				c.setStudentName(rs1.getString("studentName"));
+				c.setTeacherName(rs1.getString("teacherName"));
 				c.setScore(rs1.getDouble("score"));
 				list.add(c);
 			}
@@ -37,30 +41,36 @@ public class CourseChooseDaoImpl implements CourseChooseDao{
 		return list;
 	}
     
-	public ArrayList<CourseChoose> courseQueryByUserName(String userName) throws RecordNotFoundException {
-		ArrayList<CourseChoose> list=null;
-		ArrayList<String> courses;
-		String sql="SELECT * FROM tbl_coursechoose WHERE userName='"+userName+"'";
+	public ArrayList<CourseChoose> courseQueryByStudent(String studentName) throws RecordNotFoundException,SQLException {
 		try {
+			String sql="SELECT * FROM tbl_coursechoose WHERE studentName='"+studentName+"'";
 			stmt=DBC.con.prepareStatement(sql);
 			rs = stmt.executeQuery();
-			while(rs.next()) {
-				
-				
-				
-				
-				
-				
-				
-				
+			if(rs.next()) {
+				return ResultSetToArrayList(rs);
 			}
 		}catch(Exception e) {
+			System.out.println(e.getMessage());
 			e.getStackTrace();
+			throw new RecordNotFoundException();
 		}
-		
-		
 		return null;
 	}
-
-
+	
+	public ArrayList<CourseChoose> courseQueryByTeacher(String teacherName) throws RecordNotFoundException,SQLException {
+		try {
+			String sql="SELECT * FROM tbl_coursechoose WHERE teacherName='"+teacherName+"'";
+			stmt=DBC.con.prepareStatement(sql);
+			rs = stmt.executeQuery();
+			if(rs.next()) {
+				return ResultSetToArrayList(rs);
+			}
+		}catch(Exception e) {
+			System.out.println(e.getMessage());
+			e.getStackTrace();
+			throw new RecordNotFoundException();
+		}
+		return null;
+	}
 }
+

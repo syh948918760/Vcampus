@@ -14,12 +14,12 @@ public class AdminDaoImpl implements AdminDao{
 	private PreparedStatement stmt=null;
 	private ResultSet rs=null;
 	
-	/**ÌáÈ¡Êı¾İ¿âÖĞÄ³¹ÜÀíÔ±µÄĞÅÏ¢
+	/**ï¿½ï¿½È¡ï¿½ï¿½ï¿½İ¿ï¿½ï¿½ï¿½Ä³ï¿½ï¿½ï¿½ï¿½Ô±ï¿½ï¿½ï¿½ï¿½Ï¢
 	 * @param adminID
 	 * 
 	 * @return admin
 	 */
-	public Admin selectAdmin(String adminID){
+	public Admin selectAdmin(String adminID)throws SQLException{
 		Admin admin=new Admin();
 		String sql="SELECT * FROM tbl_admin WHERE adminID=?";
 		try {
@@ -39,12 +39,12 @@ public class AdminDaoImpl implements AdminDao{
 		return admin;
 	} 	
 	
-	/**ÔÚÊı¾İ¿âÖĞÌí¼ÓÄ³¹ÜÀíÔ±µÄĞÅÏ¢
+	/**ï¿½ï¿½ï¿½ï¿½ï¿½İ¿ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä³ï¿½ï¿½ï¿½ï¿½Ô±ï¿½ï¿½ï¿½ï¿½Ï¢
 	 * @param adminID
 	 * @param password
 	 * @return NONE
 	 */
-	public boolean insertAdmin(String adminID,String password){
+	public boolean insertAdmin(String adminID,String password)throws SQLException{
 		Admin admin=selectAdmin(adminID);
 		if(admin!=null)return false;
 		
@@ -62,13 +62,13 @@ public class AdminDaoImpl implements AdminDao{
 		return true;
 	}	 	
 	
-	/**ĞŞ¸ÄÊı¾İ¿âÖĞÄ³¹ÜÀíÔ±ÃÜÂë
+	/**ï¿½Ş¸ï¿½ï¿½ï¿½ï¿½İ¿ï¿½ï¿½ï¿½Ä³ï¿½ï¿½ï¿½ï¿½Ô±ï¿½ï¿½ï¿½ï¿½
 	 * @param adminID
 	 * @param password
 	 * 
 	 * @return NONE
 	 */
-	public boolean updatePassword(String adminID,String password){
+	public boolean updatePassword(String adminID,String password)throws SQLException{
 		try{
 			String sql="UPDATE tbl_admin SET password=? WHERE adminID=?";
 			stmt=DBC.con.prepareStatement(sql);
